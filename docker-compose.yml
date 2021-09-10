@@ -1,0 +1,18 @@
+version: '3.2'
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "127.0.0.1:53:53"
+      - "127.0.0.1:443:443"
+      - "127.0.0.1:4510-4530:4510-4530"
+      - "127.0.0.1:4566-4620:4566-4620"
+    environment:
+      - SERVICES=s3,sqs,sns
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - './.localstack:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - ./aws:/docker-entrypoint-initaws.d
